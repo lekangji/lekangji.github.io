@@ -1,0 +1,213 @@
+{
+    "featuredIds": [
+        "macro-ups",
+        "print-failure-detection",
+        "vex-33111a",
+        "browser-gaming-platform"
+    ],
+    "projects": [
+        {
+            "id": "hardware",
+            "eyebrow": "Hardware & Electronics",
+            "title": "Boards and systems built from the circuit up.",
+            "description": "Custom PCBs, power systems, embedded devices, and assistive technology designed through schematic, CAD, assembly, and testing.",
+            "projects": [
+                {
+                    "id": "deaf-emergency-system",
+                    "title": "Deaf Emergency Communication System",
+                    "description": "Assistive alert system designed for people who are deaf or hard of hearing; placed third in Robotics & Intelligent Machines at TXSEF 2024.",
+                    "stack": ["Assistive Technology", "Embedded Systems", "Prototyping"],
+                    "label": "Science fair project"
+                },
+                {
+                    "id": "adjustable-power-supply",
+                    "title": "Adjustable Bench Power Supply",
+                    "description": "A high-power adjustable bench supply with CC/CV control, a custom enclosure, active cooling, and real-time output monitoring.",
+                    "stack": ["ESP32", "Power Electronics", "CAD"],
+                    "url": "https://github.com/lekangji/Adjustable-Power-Supply"
+                },
+                {
+                    "id": "pico-devboard",
+                    "title": "Pico+ Devboard",
+                    "image": "https://raw.githubusercontent.com/lekangji/Pico-Devboard/refs/heads/main/Images/BackRender.png",
+                    "description": "A compact custom RP2040 board with 16 MB flash, USB-C, battery input, voltage monitoring, and labeled GPIO.",
+                    "stack": ["RP2040", "KiCad", "PCB Design"],
+                    "url": "https://github.com/lekangji/Pico-Devboard"
+                },
+                {
+                    "id": "macro-ups",
+                    "title": "MacroUPS",
+                    "description": "A 180 Wh LiFePO₄ backup power system with eight USB outputs, 250 W continuous delivery, and instantaneous outage switchover.",
+                    "stack": ["Power Delivery", "LiFePO4", "Custom PCB"],
+                    "url": "https://github.com/lekangji/MacroUPS"
+                },
+                {
+                    "id": "desk-lock",
+                    "title": "NFC Desk Lock",
+                    "description": "An ESP32-controlled drawer lock with NFC authentication, servo actuation, and automatic relocking when the drawer closes.",
+                    "stack": ["ESP32", "NFC", "CAD"],
+                    "url": "https://github.com/lekangji/Desk-Lock"
+                },
+                {
+                    "id": "sound-direction-finder",
+                    "title": "Sound Direction Finder",
+                    "description": "An ESP32 system that estimates a sound source in 3D using time-difference-of-arrival measurements from four MEMS microphones.",
+                    "stack": ["ESP32", "TDOA", "MEMS Microphones"],
+                    "url": "https://github.com/lekangji/Sound-Direction-Finder"
+                },
+                {
+                    "id": "usb-hub",
+                    "title": "Four-Port USB Hub",
+                    "description": "A practical USB 2.0 hub PCB designed around the SL2.1A with matched differential data pairs and fabrication files.",
+                    "stack": ["PCB Design", "USB 2.0", "EasyEDA"],
+                    "url": "https://github.com/lekangji/USB-Hub"
+                },
+                {
+                    "id": "raspberry-pi-adblock",
+                    "title": "Raspberry Pi Ad Blocker",
+                    "description": "A network-wide DNS filtering system configured on a Raspberry Pi to block advertising across connected devices.",
+                    "stack": ["Raspberry Pi", "DNS", "Networking"],
+                    "label": "Home infrastructure project"
+                }
+            ]
+        },
+        {
+            "id": "robotics",
+            "eyebrow": "Robotics",
+            "title": "Autonomous systems built for competition.",
+            "description": "Robot control, autonomous routines, and iterative tuning developed for VEX competition environments.",
+            "projects": [
+                {
+                    "id": "vex-33111a",
+                    "title": "33111A VEX Competition Code",
+                    "description": "The codebase behind VEX competition work, including autonomous and driver-control systems developed as lead programmer and co-captain.",
+                    "stack": ["C++", "VEX V5", "Autonomous Control"],
+                    "url": "https://github.com/lekangji/33111A-VEX"
+                }
+            ]
+        },
+        {
+            "id": "ai",
+            "eyebrow": "AI, Vision & Simulation",
+            "title": "Models and simulations that learn, see, and move.",
+            "description": "Applied machine learning and custom simulation work focused on real-time behavior and visual systems.",
+            "projects": [
+                {
+                    "id": "print-failure-detection",
+                    "title": "3D Print Failure Detection",
+                    "description": "A computer-vision pipeline designed to detect failed 3D prints and reduce filament waste and unattended-printing risk.",
+                    "stack": ["TensorFlow", "YOLO", "OpenCV"],
+                    "url": "https://github.com/lekangji/Print-Failure-Detection"
+                },
+                {
+                    "id": "ai-cars",
+                    "title": "AI Cars",
+                    "description": "A self-driving car simulation that uses NEAT to evolve driving behavior inside a custom Pygame environment.",
+                    "stack": ["Python", "Pygame", "NEAT"],
+                    "url": "https://github.com/lekangji/AI-Cars"
+                },
+                {
+                    "id": "ai-fluid-simulation",
+                    "title": "AI Fluid Simulation",
+                    "description": "An interactive fluid simulation built in Python with numerical and machine-learning tooling.",
+                    "stack": ["PyTorch", "NumPy", "Matplotlib"],
+                    "url": "https://github.com/lekangji/AI-Fluid-Simulation"
+                }
+            ]
+        },
+        {
+            "id": "software",
+            "eyebrow": "Software & Tools",
+            "title": "Useful tools and experimental playgrounds.",
+            "description": "Desktop utilities, workflow automation, graphics experiments, and small tools built to solve a specific problem.",
+            "projects": [
+                {
+                    "id": "keepalive",
+                    "title": "Keepalive",
+                    "description": "Explore Keepalive at keepalive.lekang.cc.",
+                    "stack": ["Web"],
+                    "url": "https://keepalive.lekang.cc/",
+                    "linkLabel": "VISIT SITE ↗"
+                },
+                {
+                    "id": "browser-gaming-platform",
+                    "title": "55GMS",
+                    "description": "A browser-based gaming platform I co-founded that grew to serve millions of users.",
+                    "stack": ["JavaScript", "Node.js", "Web Platform"],
+                    "url": "https://github.com/55gms/55GMS"
+                },
+                {
+                    "id": "soft-body-physics",
+                    "title": "Soft Body Physics Sandbox",
+                    "description": "A custom 2D soft-body physics engine demonstrating elasticity, deformation, and interactive simulation.",
+                    "stack": ["Python", "Pygame", "Physics"],
+                    "url": "https://github.com/lekangji/Soft-Body-Physics"
+                },
+                {
+                    "id": "roblox-account-manager",
+                    "title": "Roblox Account Manager",
+                    "description": "A desktop toolkit for managing multiple development accounts with browser automation and a PyQt interface.",
+                    "stack": ["Python", "PyQt", "Selenium"],
+                    "url": "https://github.com/lekangji/Roblox-Account-Manager"
+                },
+                {
+                    "id": "ocr-screenshot",
+                    "title": "OCR Screenshot",
+                    "description": "A focused utility for extracting editable text from screenshots using optical character recognition.",
+                    "stack": ["Python", "OCR"],
+                    "url": "https://github.com/lekangji/OCR-Screenshot"
+                },
+                {
+                    "id": "eye-break",
+                    "title": "Eye Break",
+                    "description": "A desktop reminder app that supports healthier screen habits with the 20-20-20 rule.",
+                    "stack": ["Python", "PyQt"],
+                    "url": "https://github.com/lekangji/Eye-Break"
+                },
+                {
+                    "id": "terrain-generator",
+                    "title": "Procedural Terrain Generator",
+                    "description": "A terrain-generation demo that uses Perlin noise to build natural-looking landscapes.",
+                    "stack": ["Python", "Pygame", "Procedural Generation"],
+                    "url": "https://github.com/lekangji/Terrain-Generator"
+                },
+                {
+                    "id": "ascii-video",
+                    "title": "ASCII Video",
+                    "description": "A webcam experiment that transforms live video into animated ASCII output.",
+                    "stack": ["OpenCV", "Pygame", "Tkinter"],
+                    "url": "https://github.com/lekangji/ASCII-Video"
+                },
+                {
+                    "id": "nighttime-alleyway",
+                    "title": "Nighttime Alleyway",
+                    "description": "A compact graphics experiment rendering a stylized nighttime alleyway scene.",
+                    "stack": ["GLSL", "Graphics"],
+                    "url": "https://github.com/lekangji/Nighttime-Alleyway"
+                },
+                {
+                    "id": "world-border-expansion",
+                    "title": "World Border Expansion",
+                    "description": "A Minecraft plugin that expands the world border when an entity dies, turning gameplay events into progression.",
+                    "stack": ["Java", "Bukkit"],
+                    "url": "https://github.com/lekangji/World-Border-Expansion"
+                }
+            ]
+        },
+        {
+            "id": "competitive-programming",
+            "eyebrow": "Competitive Programming",
+            "title": "Tools that make contest practice faster.",
+            "description": "Utilities created around competitive-programming workflows and repeated problem-solving practice.",
+            "projects": [
+                {
+                    "id": "usaco-boilerplate-generator",
+                    "title": "USACO Boilerplate Generator",
+                    "description": "A configurable tool that gathers problem details and prepares starter code for USACO practice.",
+                    "stack": ["Python", "BeautifulSoup", "Requests"],
+                    "url": "https://github.com/lekangji/USACO-Boilerplate-Generator"
+                }
+            ]
+        }
+    ]
+}

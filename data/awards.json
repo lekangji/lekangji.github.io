@@ -1,0 +1,158 @@
+{
+    "featuredIds": [
+        "aime-qualifier",
+        "vex-worlds",
+        "usaco-silver"
+    ],
+    "categories": [
+        {
+            "id": "academic",
+            "eyebrow": "Academic awards",
+            "title": "Algorithms, mathematics, and research.",
+            "description": "Results from programming, mathematics, science, and engineering competitions.",
+            "items": [
+                {
+                    "id": "aime-qualifier",
+                    "year": "2026",
+                    "title": "AIME Qualifier",
+                    "summary": "Mathematics recognition and an invitation to the AIME.",
+                    "description": "Scored 112.5 on the AMC 10, earning Honor Roll recognition and qualification for the American Invitational Mathematics Examination.",
+                    "badges": ["Mathematics", "AMC 10"],
+                    "accent": true
+                },
+                {
+                    "id": "calico-bronze",
+                    "year": "2026",
+                    "title": "Calico Bronze Award",
+                    "description": "Earned a bronze award in the California Informatics Competition through team programming.",
+                    "badges": ["Team Programming", "Algorithms"]
+                },
+                {
+                    "id": "usaco-silver",
+                    "year": "2025",
+                    "title": "USACO Silver",
+                    "summary": "Advanced to the Silver division in competitive programming.",
+                    "description": "Promoted to the Silver division of the USA Computing Olympiad through competitive-programming performance.",
+                    "badges": ["C++", "Competitive Programming"]
+                },
+                {
+                    "id": "txsef",
+                    "year": "2024",
+                    "title": "Texas Science & Engineering Fair",
+                    "description": "Placed third in Robotics & Intelligent Machines for an assistive emergency communication system.",
+                    "badges": ["3rd Place", "Robotics"]
+                },
+                {
+                    "id": "sef-houston",
+                    "year": "2024",
+                    "title": "Science & Engineering Fair of Houston",
+                    "description": "Placed second in Robotics & Intelligent Machines.",
+                    "badges": ["2nd Place", "Engineering"]
+                },
+                {
+                    "id": "amc8-honor-roll",
+                    "year": "2024",
+                    "title": "AMC 8 Honor Roll",
+                    "description": "Scored 21, finished top in school, and earned Honor Roll recognition.",
+                    "badges": ["Mathematics", "Top in School"]
+                },
+                {
+                    "id": "acsl-bronze",
+                    "year": "2023 & 2024",
+                    "title": "ACSL Bronze Awards",
+                    "description": "Earned American Computer Science League bronze awards in the Elementary and Junior divisions.",
+                    "badges": ["Computer Science", "2× Bronze"]
+                }
+            ]
+        },
+        {
+            "id": "robotics-awards",
+            "eyebrow": "Robotics awards",
+            "title": "Team results built through iteration.",
+            "description": "Competition milestones earned through autonomous development, driver practice, and team leadership.",
+            "items": [
+                {
+                    "id": "vex-worlds",
+                    "year": "2×",
+                    "title": "VEX V5 World Championship Qualifier",
+                    "summary": "Two World Championship qualifications with the team.",
+                    "description": "Qualified twice while serving as lead programmer and co-captain.",
+                    "badges": ["VEX V5", "World Championship"],
+                    "accent": true
+                },
+                {
+                    "id": "region-tournament-champion",
+                    "year": "1st",
+                    "title": "Texas Region 3 Tournament Champion",
+                    "description": "Won the regional tournament championship in VEX V5.",
+                    "badges": ["Tournament Champion", "Texas"]
+                },
+                {
+                    "id": "region-skills-champion",
+                    "year": "2024",
+                    "title": "Texas Region 3 Skills Champion",
+                    "description": "Won the regional skills championship in VEX IQ.",
+                    "badges": ["Skills Champion", "VEX IQ"]
+                },
+                {
+                    "id": "robotics-team-awards",
+                    "year": "Multiple",
+                    "title": "Team Awards & State Qualifications",
+                    "description": "Earned multiple Excellence, Think, and Judges Awards alongside multiple VEX IQ state qualifications.",
+                    "badges": ["Excellence", "Think", "Judges"]
+                }
+            ]
+        },
+        {
+            "id": "volunteering",
+            "eyebrow": "Volunteering & outreach",
+            "title": "Sharing skills and showing up for others.",
+            "description": "Service, teaching, and community programs beyond competition.",
+            "items": [
+                {
+                    "id": "camp-camp",
+                    "year": "2025 & 2026 · 100+ hours",
+                    "title": "Camp CAMP",
+                    "description": "Supported individuals with disabilities through two summers of service.",
+                    "badges": ["Community Service", "Accessibility"],
+                    "accent": true
+                },
+                {
+                    "id": "red-cross",
+                    "year": "Volunteer member",
+                    "title": "American Red Cross",
+                    "description": "Help with community programs, disaster response, and support for military families.",
+                    "badges": ["Community", "Service"]
+                },
+                {
+                    "id": "barracudas",
+                    "year": "2026",
+                    "title": "Bellaire Barracudas",
+                    "description": "Taught swimming to young children and helped manage swim meets.",
+                    "badges": ["Teaching", "Youth"]
+                },
+                {
+                    "id": "giveducation",
+                    "year": "2025",
+                    "title": "Giveducation",
+                    "description": "Taught VEX IQ robotics to younger students.",
+                    "badges": ["Mentorship", "Robotics"]
+                },
+                {
+                    "id": "math-videos",
+                    "year": "Educational outreach",
+                    "title": "Math Video Creator",
+                    "description": "Created instructional YouTube videos covering mathematics for STAAR.",
+                    "badges": ["Mathematics", "Education"]
+                },
+                {
+                    "id": "science-fair-blog",
+                    "year": "Student resource",
+                    "title": "Science Fair Blog",
+                    "description": "Created a blog with science fair guidance and resources.",
+                    "badges": ["Writing", "Science Fair"]
+                }
+            ]
+        }
+    ]
+}
