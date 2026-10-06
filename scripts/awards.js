@@ -1,17 +1,10 @@
+import { element as makeElement } from "./dom.js?v=7";
 const awardsDataUrl = new URL("../data/awards.json", import.meta.url);
 
-const makeElement = (tag, className, text) => {
-    const element = document.createElement(tag);
-    if (className) element.className = className;
-    if (text) element.textContent = text;
-    return element;
-};
 
 const buildAwardCard = (item, category, index, preview = false) => {
     const card = makeElement("article", "project-card award-card");
     const inner = makeElement("div", "project-card-inner");
-    const visual = makeElement("div", "project-card-visual");
-    visual.append(makeElement("span", "mono", String(index + 1).padStart(2, "0")));
     const body = makeElement("div", "project-card-body");
     body.append(
         makeElement("p", "project-card-meta mono", category.eyebrow),
@@ -24,7 +17,7 @@ const buildAwardCard = (item, category, index, preview = false) => {
         makeElement("span", "", (item.badges ?? [])[0] ?? "RECOGNITION"),
     );
     body.append(footer);
-    inner.append(visual, body);
+    inner.append(body);
     card.append(inner);
     return card;
 };
@@ -54,7 +47,7 @@ export const initAwards = async () => {
         const response = await fetch(awardsDataUrl);
         if (!response.ok) throw new Error(`Awards request failed: ${response.status}`);
         const data = await response.json();
-        const categories = data.categories ?? [];
+        const categories = (data.categories ?? []).filter((category) => category.items?.length);
         if (root) root.replaceChildren(...categories.map(buildAwardCategory));
         if (featuredRoot) {
             const items = new Map(categories.flatMap((category) =>

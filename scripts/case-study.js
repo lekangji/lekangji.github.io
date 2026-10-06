@@ -1,4 +1,5 @@
-import { projectMedia, loadMedia } from "./project-media.mjs?v=5";
+import { element } from "./dom.js?v=7";
+import { projectMedia, loadMedia } from "./project-media.mjs?v=7";
 
 const studies = {
     "macro-ups": {
@@ -55,12 +56,6 @@ const studies = {
     }
 };
 
-const element = (tag, className, text) => {
-    const node = document.createElement(tag);
-    if (className) node.className = className;
-    if (text) node.textContent = text;
-    return node;
-};
 
 const detail = (label, content) => {
     const block = element("section", "case-detail");
@@ -77,7 +72,7 @@ export const initCaseStudy = () => {
         document.title = "Case study unavailable - Lekang Ji";
         const missing = element("section", "case-missing");
         const back = element("a", "text-action mono", "BACK TO ALL PROJECTS ↗");
-        back.href = "index.html";
+        back.href = "/projects/";
         missing.append(element("h1", "", "Case study unavailable"), element("p", "", "Choose a project from the archive to read its case study."), back);
         root.replaceChildren(missing);
         return;
@@ -87,7 +82,7 @@ export const initCaseStudy = () => {
     document.querySelectorAll('meta[name="description"], meta[property="og:description"], meta[name="twitter:description"]').forEach((meta) => meta.setAttribute("content", study.summary));
     document.querySelectorAll('meta[property="og:title"], meta[name="twitter:title"]').forEach((meta) => meta.setAttribute("content", document.title));
     const hero = element("section", "case-hero");
-    hero.append(element("p", "kicker mono", study.category), element("h1", "", study.title), element("p", "case-statement", study.statement), element("p", "case-summary", study.summary));
+    hero.append(element("p", "kicker mono", study.category), element("h1", "", study.title), element("p", "case-summary", study.summary));
     const repo = element("a", "text-action mono", "EXPLORE THE CODE ↗");
     repo.href = study.repo;
     repo.target = "_blank";
@@ -127,6 +122,6 @@ export const initCaseStudy = () => {
         detail("05 / RESULT", study.outcome),
     );
     const next = element("a", "case-back mono", "← BACK TO ALL PROJECTS");
-    next.href = "index.html";
+    next.href = "/projects/";
     root.replaceChildren(hero, system, body, next);
 };

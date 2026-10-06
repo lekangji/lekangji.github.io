@@ -8,8 +8,8 @@
             content="Lekang Ji is an engineer and builder creating systems across software, AI, robotics, and hardware."
         />
         <title>Home - Lekang Ji</title>
-        <link rel="stylesheet" href="style.css?v=5" />
-    <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
+        <link rel="stylesheet" href="/style.css?v=7" />
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg" />
         <meta name="theme-color" content="#326b9a" />
         <link rel="canonical" href="https://lekang.cc/" />
         <meta property="og:url" content="https://lekang.cc/" />
@@ -23,13 +23,13 @@
     </head>
     <body id="top">
     <a class="skip-link" href="#main-content">Skip to content</a>
-        <header class="site-header">
+        <header class="site-header" data-page="Home">
             <nav class="site-nav wrap" aria-label="Primary navigation">
                 <a class="wordmark" href="#top">LJ<span class="wordmark-dot">.</span></a>
                 <div class="nav-links" id="primaryNav">
-                    <a href="index.html" aria-current="page">Home</a><a href="about.html">About</a
-                    ><a href="projects/index.html">Projects</a
-                    ><a href="achievements/index.html">Awards</a><a href="#contact">Contact</a>
+                    <a href="/" aria-current="page">Home</a><a href="/about/">About</a
+                    ><a href="/projects/">Projects</a
+                    ><a href="/achievements/">Awards</a><a href="#contact">Contact</a>
                 </div>
                 <button
                     class="nav-toggle"
@@ -65,15 +65,15 @@
                         </p>
                         <div class="hero-actions">
                             <a class="button-link" href="#work"
-                                >Explore selected work <span aria-hidden="true">↗</span></a
-                            ><a class="button-link button-link-secondary" href="resume.html"
-                                >View résumé <span aria-hidden="true">↗</span></a
+                                >Explore selected work <span class="icon icon-external" aria-hidden="true"></span></a
+                            ><a class="button-link button-link-secondary" href="/resume/"
+                                >View résumé <span class="icon icon-external" aria-hidden="true"></span></a
                             >
                         </div>
                     </div>
                 </div>
                 <a class="scroll-link mono" href="#work"
-                    >SCROLL TO EXPLORE <span aria-hidden="true">↓</span></a
+                    >SCROLL TO EXPLORE <span class="icon icon-down" aria-hidden="true"></span></a
                 >
             </section>
 
@@ -83,10 +83,9 @@
                     <div class="section-intro-main">
                         <div class="section-intro-heading">
                             <h2 id="work-title">Featured projects<span class="accent-period">.</span></h2>
-                            <a class="button-link button-link-secondary" href="projects/index.html">Project archive <span aria-hidden="true">↗</span></a>
+                            <a class="button-link button-link-secondary" href="/projects/">Project archive <span class="icon icon-external" aria-hidden="true"></span></a>
                         </div>
                         <p>Explore power electronics, computer vision, and a web platform.</p>
-                        <a class="text-action mono section-inline-link" href="https://github.com/lekangji" target="_blank" rel="noopener noreferrer">MORE ON GITHUB ↗</a>
                     </div>
                 </div>
 
@@ -102,7 +101,7 @@
                             <span class="featured-meta mono">01 / HARDWARE & POWER</span>
                             <span class="featured-title">MacroUPS</span>
                             <span class="featured-summary">Power that stays on when the wall does not.</span>
-                            <span class="featured-cta mono">OPEN PROJECT DETAILS <span aria-hidden="true">↗</span></span>
+                            <span class="featured-cta mono">OPEN PROJECT DETAILS <span class="icon icon-external" aria-hidden="true"></span></span>
                         </span>
                     </button>
                 </article>
@@ -120,7 +119,7 @@
                             <span class="featured-meta mono">02 / COMPUTER VISION</span>
                             <span class="featured-title">3D Print Failure Detection</span>
                             <span class="featured-summary">Computer vision for detecting failed 3D prints.</span>
-                            <span class="featured-cta mono">OPEN PROJECT DETAILS <span aria-hidden="true">↗</span></span>
+                            <span class="featured-cta mono">OPEN PROJECT DETAILS <span class="icon icon-external" aria-hidden="true"></span></span>
                         </span>
                     </button>
                 </article>
@@ -138,12 +137,12 @@
                             <span class="featured-meta mono">03 / WEB PLATFORM</span>
                             <span class="featured-title">55GMS</span>
                             <span class="featured-summary">A browser platform that grew to serve millions of users.</span>
-                            <span class="featured-cta mono">OPEN PROJECT DETAILS <span aria-hidden="true">↗</span></span>
+                            <span class="featured-cta mono">OPEN PROJECT DETAILS <span class="icon icon-external" aria-hidden="true"></span></span>
                         </span>
                     </button>
                 </article>
 
-                <noscript><p class="no-script-note">Project panels and highlights require JavaScript. Explore <a href="projects/case-study.html?id=macro-ups">MacroUPS</a>, <a href="projects/case-study.html?id=print-failure-detection">3D Print Failure Detection</a>, and <a href="projects/case-study.html?id=browser-gaming-platform">55GMS</a> on their case-study pages, or <a href="resume.html">read the résumé</a>.</p></noscript>
+                <noscript><p class="no-script-note">Project panels and highlights require JavaScript. Explore <a href="/projects/case-study/?id=macro-ups">MacroUPS</a>, <a href="/projects/case-study/?id=print-failure-detection">3D Print Failure Detection</a>, and <a href="/projects/case-study/?id=browser-gaming-platform">55GMS</a> on their case-study pages, or <a href="/resume/">read the résumé</a>.</p></noscript>
                 <dialog class="featured-panel" id="featuredProjectPanel" aria-labelledby="featuredPanelTitle">
                     <div class="featured-panel-inner">
                         <div class="featured-panel-top">
@@ -161,7 +160,7 @@
                         </div>
                     </div>
                 </dialog>
-                <script type="module" src="scripts/featured-projects.mjs?v=5"></script>
+                <script type="module" src="/scripts/featured-projects.mjs?v=7"></script>
             </section>
 
             <section
@@ -178,8 +177,8 @@
                             </h2>
                             <a
                                 class="button-link button-link-secondary"
-                                href="achievements/index.html"
-                                >All awards & service <span aria-hidden="true">↗</span></a
+                                href="/achievements/"
+                                >All awards & service <span class="icon icon-external" aria-hidden="true"></span></a
                             >
                         </div>
                         <p>
@@ -193,39 +192,10 @@
                 </div>
             </section>
 
-            <section class="contact-section wrap" id="contact" aria-labelledby="contact-title">
-                <p class="kicker mono">04 / CONTACT</p>
-                <h2 id="contact-title">
-                    Have something worth building<span class="accent-period">?</span>
-                </h2>
-                <div class="contact-action">
-                    <p>
-                        I'm open to thoughtful conversations about engineering, research, and
-                        ambitious projects.
-                    </p>
-                    <a class="contact-link" href="mailto:contact@lekangji.cc"
-                        >Let’s talk <span aria-hidden="true">↗</span></a
-                    >
-                    <div class="contact-social mono">
-                        <a href="https://github.com/lekangji" target="_blank" rel="noreferrer"
-                            >GITHUB ↗</a
-                        ><a
-                            href="https://www.linkedin.com/in/lekangji/"
-                            target="_blank"
-                            rel="noreferrer"
-                            >LINKEDIN ↗</a
-                        >
-                    </div>
-                </div>
-            </section>
+
         </main>
 
-        <footer class="site-footer wrap">
-            <span class="mono">© <span id="year">2026</span> LEKANG JI</span>
-            <div>
-                <a href="mailto:contact@lekangji.cc">Email ↗</a><a href="#top">Back to top ↑</a>
-            </div>
-        </footer>
-        <script type="module" src="script.js?v=5"></script>
+        <footer class="site-footer wrap"><noscript><section id="contact" class="contact-section"><h2>Contact</h2><div class="contact-links"><a href="mailto:contact@lekangji.cc">Email</a><a href="https://www.linkedin.com/in/lekangji/">LinkedIn</a><a href="https://github.com/lekangji">GitHub</a></div></section></noscript></footer>
+        <script type="module" src="/script.js?v=7"></script>
     </body>
 </html>

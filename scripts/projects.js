@@ -1,18 +1,13 @@
-import { projectMedia, mediaUrl } from "./project-media.mjs?v=5";
+import { element as makeElement } from "./dom.js?v=7";
+import { projectMedia, mediaUrl } from "./project-media.mjs?v=7";
 
 const projectsDataUrl = new URL("../data/projects.json", import.meta.url);
 
-const makeElement = (tag, className, text) => {
-    const element = document.createElement(tag);
-    if (className) element.className = className;
-    if (text) element.textContent = text;
-    return element;
-};
 
 const buildProjectCard = (project, index, selectedIds, categoryName) => {
     const card = makeElement("article", "project-card");
     const inner = makeElement("div", "project-card-inner");
-    const caseStudyUrl = selectedIds.has(project.id) ? `case-study.html?id=${encodeURIComponent(project.id)}` : null;
+    const caseStudyUrl = selectedIds.has(project.id) ? `/projects/case-study/?id=${encodeURIComponent(project.id)}` : null;
 
     const visual = makeElement("div", "project-card-visual");
     visual.append(makeElement("span", "mono", String(index + 1).padStart(2, "0")));
@@ -24,7 +19,7 @@ const buildProjectCard = (project, index, selectedIds, categoryName) => {
         image.decoding = "async";
         image.addEventListener("load", () => card.classList.add("has-image"), { once: true });
         image.addEventListener("error", () => {
-            image.remove();
+            visual.remove();
             card.classList.remove("has-image");
         }, { once: true });
         image.src = cover ? mediaUrl(cover.src) : project.image;
@@ -62,7 +57,8 @@ const buildProjectCard = (project, index, selectedIds, categoryName) => {
     if (!actions.childElementCount) actions.textContent = "OVERVIEW";
     footer.append(actions);
     body.append(footer);
-    inner.append(visual, body);
+    if (cover || project.image) inner.append(visual);
+    inner.append(body);
     card.append(inner);
     return card;
 };
@@ -86,7 +82,7 @@ export const initProjects = async () => {
         if (!response.ok) throw new Error(`Projects request failed: ${response.status}`);
         const data = await response.json();
         const selectedIds = new Set(data.featuredIds ?? []);
-        root.replaceChildren(...(data.projects ?? []).map((category) => buildCategory(category, selectedIds)));
+        root.replaceChildren(...(data.projects ?? []).filter((category) => category.projects?.length).map((category) => buildCategory(category, selectedIds)));
     } catch (error) {
         console.error(error);
         root.textContent = "The project archive is unavailable right now.";

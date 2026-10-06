@@ -1,16 +1,19 @@
-import { initTheme } from "./scripts/theme.js?v=5";
-import { initUi, scrollToContact } from "./scripts/ui.js?v=5";
-import { initProjects } from "./scripts/projects.js?v=5";
-import { initAwards } from "./scripts/awards.js?v=5";
-import { initCaseStudy } from "./scripts/case-study.js?v=5";
+import { initSite, initSectionBackgrounds } from "./scripts/site.js?v=7";
+import { initTheme } from "./scripts/theme.js?v=7";
+import { initUi, scrollToContact } from "./scripts/ui.js?v=7";
+import { initProjects } from "./scripts/projects.js?v=7";
+import { initAwards } from "./scripts/awards.js?v=7";
+import { initCaseStudy } from "./scripts/case-study.js?v=7";
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+    initSite();
     initTheme();
     initUi();
-    initProjects();
-    const awardsReady = initAwards();
+    const archivesReady = Promise.all([initProjects(), initAwards()]);
     initCaseStudy();
+    await archivesReady;
+    initSectionBackgrounds();
     if (window.location.hash === "#contact") {
-        awardsReady.then(() => requestAnimationFrame(() => scrollToContact("auto")));
+        requestAnimationFrame(() => scrollToContact("auto"));
     }
 });

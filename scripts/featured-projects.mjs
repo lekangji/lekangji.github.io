@@ -1,4 +1,5 @@
-import { projectMedia, loadMedia } from "./project-media.mjs?v=5";
+import { link } from "./dom.js?v=7";
+import { projectMedia, loadMedia } from "./project-media.mjs?v=7";
 
 const projects = {
     "macro-ups": {
@@ -7,7 +8,7 @@ const projects = {
         description: "A 180 Wh LiFePO₄ backup power system with eight USB outputs, 250 W continuous delivery, and instantaneous outage switchover.",
         stack: ["Power delivery", "LiFePO₄", "Custom PCB"],
         github: "https://github.com/lekangji/MacroUPS",
-        caseStudy: "projects/case-study.html?id=macro-ups",
+        caseStudy: "/projects/case-study/?id=macro-ups",
     },
     "print-failure-detection": {
         title: "3D Print Failure Detection",
@@ -15,7 +16,7 @@ const projects = {
         description: "A computer-vision pipeline designed to detect failed 3D prints and reduce filament waste and unattended-printing risk.",
         stack: ["TensorFlow", "YOLO", "OpenCV"],
         github: "https://github.com/lekangji/Print-Failure-Detection",
-        caseStudy: "projects/case-study.html?id=print-failure-detection",
+        caseStudy: "/projects/case-study/?id=print-failure-detection",
     },
     "browser-gaming-platform": {
         title: "55GMS",
@@ -24,7 +25,7 @@ const projects = {
         stack: ["JavaScript", "Node.js", "Web platform"],
         github: "https://github.com/55gms/55GMS",
         demo: "https://55gms.com/",
-        caseStudy: "projects/case-study.html?id=browser-gaming-platform",
+        caseStudy: "/projects/case-study/?id=browser-gaming-platform",
     },
 };
 
@@ -37,17 +38,7 @@ export function getImageMotion(top, height, viewportHeight) {
     };
 }
 
-function makeLink(label, href, external = false) {
-    const link = document.createElement("a");
-    link.className = "featured-panel-link";
-    link.textContent = label;
-    link.href = href;
-    if (external) {
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-    }
-    return link;
-}
+const makeLink = (label, href, external = false) => link(label.replace(/\s*↗$/, ""), href, external, "featured-panel-link");
 
 export function initFeaturedProjects() {
     const section = document.getElementById("work");

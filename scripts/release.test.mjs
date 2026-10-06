@@ -24,6 +24,7 @@ class Element {
     setAttribute(name, value) { this.attributes[name] = value; }
     getAttribute(name) { return this.attributes[name]; }
     append(...nodes) { this.children.push(...nodes); }
+    prepend(...nodes) { this.children.unshift(...nodes); }
     replaceChildren(...nodes) { this.children = nodes; }
     focus(options) { this.focusOptions = options; this.focusCount = (this.focusCount ?? 0) + 1; }
     remove() { this.removed = true; }
@@ -36,6 +37,8 @@ async function evaluate(file, globals) {
         .replace(/^import .*;\r?\n/gm, "")
         .replace(/export /g, "");
     const context = vm.createContext(globals);
+    const dom = (await readFile(new URL("dom.js", import.meta.url), "utf8")).replace(/export /g, "");
+    vm.runInContext(dom + "\nconst makeElement = element;", context);
     vm.runInContext(source, context);
     return context;
 }
@@ -196,7 +199,7 @@ test("all four case studies render headings and metadata; invalid IDs render a r
         vm.runInContext("initCaseStudy()", context);
         if (["missing", "__proto__", "constructor", ""].includes(id)) {
             assert.equal(document.title, "Case study unavailable - Lekang Ji");
-            assert.equal(root.children[0].children.at(-1).href, "index.html");
+            assert.equal(root.children[0].children.at(-1).href, "/projects/");
         } else {
             assert.equal(root.children.length, 4);
             assert.match(document.title, / - Lekang Ji$/);
@@ -220,13 +223,16 @@ test("failed archive and award requests replace loading text with clear messages
 test("six pages and local asset references resolve over local HTTP", async () => {
     const base = new URL("../", import.meta.url);
     const server = http.createServer(async (request, response) => {
-        try { response.end(await readFile(new URL(`.${request.url.split("?")[0]}`, base))); }
+        try {
+            const pathname = request.url.split("?")[0];
+            response.end(await readFile(new URL(`.${pathname.endsWith("/") ? pathname + "index.html" : pathname}`, base)));
+        }
         catch { response.writeHead(404).end(); }
     });
     await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
     try {
         const address = `http://127.0.0.1:${server.address().port}`;
-        for (const page of ["index.html", "about.html", "resume.html", "projects/index.html", "projects/case-study.html", "achievements/index.html"]) {
+        for (const page of ["index.html", "about/index.html", "resume/index.html", "projects/index.html", "projects/case-study/index.html", "achievements/index.html"]) {
             const response = await fetch(`${address}/${page}`);
             assert.equal(response.status, 200);
             const text = await response.text();
@@ -248,4 +254,66 @@ test("six pages and local asset references resolve over local HTTP", async () =>
         server.closeAllConnections();
         await new Promise((resolve) => server.close(resolve));
     }
+});
+
+test("shared shell renders one contact area, active navigation, and drawn arrow icons", async () => {
+    const header = new Element();
+    header.dataset = { page: "About" };
+    const footer = new Element();
+    const document = { createElement: () => new Element(), querySelector: (selector) => selector === ".site-header" ? header : footer };
+    let cleanUrl;
+    const context = await evaluate("site.js", { document, location: { pathname: "/about/index.html", search: "?view=all", hash: "#contact" }, history: { replaceState: (_, __, url) => { cleanUrl = url; } } });
+    vm.runInContext("initSite()", context);
+    assert.equal(cleanUrl, "/about?view=all#contact");
+    const nav = header.children[0];
+    assert.equal(nav.children[1].children.find((item) => item.textContent === "About").getAttribute("aria-current"), "page");
+    const contact = footer.children[0];
+    assert.equal(contact.id, "contact");
+    const links = contact.children[1].children;
+    assert.deepEqual(links.map((item) => item.href), ["mailto:contact@lekangji.cc", "https://www.linkedin.com/in/lekangji/", "https://github.com/lekangji"]);
+    assert.ok(links.every((item) => item.children.at(-1).className === "icon icon-external"));
+    assert.ok(links.every((item) => item.children.at(-1).getAttribute("aria-hidden") === "true"));
+});
+
+test("legacy route aliases preserve query strings and anchors", async () => {
+    for (const [file, route] of [["../about.html", "/about/"], ["../resume.html", "/resume/"], ["../projects/case-study.html", "/projects/case-study/"], ["../index/index.html", "/"]]) {
+        const html = await readFile(new URL(file, import.meta.url), "utf8");
+        assert.ok(html.includes(`rel="canonical" href="${route}"`));
+        let redirected;
+        await evaluate("redirect.js", {
+            location: { search: "?id=macro-ups", hash: "#contact", replace: (url) => { redirected = url; } },
+            document: { querySelector: () => ({ getAttribute: () => route }) },
+        });
+        assert.equal(redirected, route + "?id=macro-ups#contact");
+    }
+});
+
+test("section tones follow content order and Contact waits for both archives", async () => {
+    const sections = Array.from({ length: 6 }, () => new Element());
+    const site = await evaluate("site.js", { document: { querySelectorAll: () => sections } });
+    vm.runInContext("initSectionBackgrounds()", site);
+    assert.deepEqual(sections.map((section) => section.classList.contains("section-shaded")), [false, true, false, true, false, true]);
+
+    let ready;
+    let finishProjects;
+    const projects = new Promise((resolve) => { finishProjects = resolve; });
+    const calls = [];
+    const source = (await readFile(new URL("../script.js", import.meta.url), "utf8")).replace(/^import .*;\r?\n/gm, "");
+    vm.runInNewContext(source, {
+        document: { addEventListener: (_, handler) => { ready = handler; } },
+        initSite() {}, initTheme() {}, initUi() {}, initCaseStudy() {},
+        initProjects: () => projects, initAwards: async () => {},
+        initSectionBackgrounds: () => calls.push("backgrounds"),
+        window: { location: { hash: "#contact" } },
+        requestAnimationFrame: (handler) => handler(),
+        scrollToContact: () => calls.push("contact"),
+    });
+    const completion = ready();
+    assert.deepEqual(calls, []);
+    finishProjects();
+    await completion;
+    assert.deepEqual(calls, ["backgrounds", "contact"]);
+
+    const ui = await readFile(new URL("ui.js", import.meta.url), "utf8");
+    assert.doesNotMatch(ui, /event\.preventDefault\(\)/, "Contact and Back to top retain native anchor behavior");
 });

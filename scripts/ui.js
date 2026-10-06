@@ -1,6 +1,8 @@
 export const scrollToContact = (behavior = "smooth") => {
-    if (!document.getElementById("contact")) return;
-    window.scrollTo({ top: document.documentElement.scrollHeight, behavior });
+    const contact = document.getElementById("contact");
+    if (!contact) return;
+    contact.focus({ preventScroll: true });
+    contact.scrollIntoView({ behavior, block: "start" });
 };
 
 export const initUi = () => {
@@ -46,16 +48,6 @@ export const initUi = () => {
     });
     window.matchMedia("(min-width: 641px)").addEventListener("change", (event) => {
         if (event.matches) closeNav();
-    });
-
-    document.addEventListener("click", (event) => {
-        const link = event.target.closest?.('a[href="#top"], a[href="#contact"]');
-        if (!link) return;
-        event.preventDefault();
-        history.pushState(null, "", link.getAttribute("href"));
-        const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
-        if (link.hash === "#top") window.scrollTo({ top: 0, behavior });
-        else scrollToContact(behavior);
     });
 
     if (window.matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)").matches) {
