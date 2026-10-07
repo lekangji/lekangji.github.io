@@ -194,7 +194,10 @@ test("all four case studies render headings and metadata; invalid IDs render a r
     for (const id of ["macro-ups", "print-failure-detection", "vex-33111a", "browser-gaming-platform", "missing", "__proto__", "constructor", ""]) {
         const root = new Element();
         const metas = [new Element(), new Element()];
-        const document = { querySelector: () => root, querySelectorAll: () => metas, createElement: () => new Element() };
+        const ogUrl = new Element();
+        const head = new Element();
+        ogUrl.setAttribute("content", "https://lekang.cc/projects/case-study/");
+        const document = { head, querySelector: (selector) => selector === '[data-case-study]' ? root : ogUrl, querySelectorAll: () => metas, createElement: () => new Element() };
         const context = await evaluate("case-study.js", { document, projectMedia, loadMedia, window: { location: { search: `?id=${id}` } }, URLSearchParams });
         vm.runInContext("initCaseStudy()", context);
         if (["missing", "__proto__", "constructor", ""].includes(id)) {
@@ -204,6 +207,9 @@ test("all four case studies render headings and metadata; invalid IDs render a r
             assert.equal(root.children.length, 4);
             assert.match(document.title, / - Lekang Ji$/);
             assert.ok(metas[0].getAttribute("content"));
+            assert.equal(head.children[0].rel, "canonical");
+            assert.equal(head.children[0].href, `https://lekang.cc/projects/case-study/?id=${id}`);
+            assert.equal(ogUrl.getAttribute("content"), head.children[0].href);
         }
     }
 });
@@ -266,6 +272,7 @@ test("shared shell renders one contact area, active navigation, and drawn arrow 
     vm.runInContext("initSite()", context);
     assert.equal(cleanUrl, "/about?view=all#contact");
     const nav = header.children[0];
+    assert.equal(nav.children[0].textContent, "Lekang Ji");
     assert.equal(nav.children[1].children.find((item) => item.textContent === "About").getAttribute("aria-current"), "page");
     const contact = footer.children[0];
     assert.equal(contact.id, "contact");

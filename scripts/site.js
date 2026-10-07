@@ -24,8 +24,9 @@ export const initSite = () => {
     if (header) {
         const nav = element("nav", "site-nav wrap");
         nav.setAttribute("aria-label", "Primary navigation");
-        const wordmark = element("a", "wordmark", "LJ");
+        const wordmark = element("a", "wordmark", "Lekang Ji");
         wordmark.append(element("span", "wordmark-dot", "."));
+        wordmark.children[0].setAttribute("aria-hidden", "true");
         wordmark.href = "/";
         const links = element("div", "nav-links");
         links.id = "primaryNav";

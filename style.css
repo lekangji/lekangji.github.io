@@ -60,7 +60,7 @@ html:not(.nav-ready) .loading-message { display: none; }
 .site-header { position: sticky; top: 0; z-index: 30; border-bottom: 1px solid transparent; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); transition: background-color .25s ease, border-color .25s ease; }
 .site-header.is-scrolled { background: color-mix(in srgb, var(--bg) 95%, transparent); border-bottom-color: var(--line); }
 .site-nav { position: relative; display: flex; align-items: center; min-height: var(--header-height); gap: .9rem; }
-.wordmark { flex: 0 0 auto; margin-right: auto; font-size: 1.55rem; font-weight: 700; letter-spacing: -.1em; line-height: 1; text-decoration: none; }
+.wordmark { flex: 0 0 auto; margin-right: auto; font-size: 1.55rem; font-weight: 700; letter-spacing: -.035em; line-height: 1; text-decoration: none; }
 .nav-links { display: flex; align-items: center; gap: clamp(.45rem, 1.1vw, 1.2rem); min-width: 0; overflow-x: auto; scrollbar-width: none; }
 .nav-links::-webkit-scrollbar { display: none; }
 .nav-links a { position: relative; flex: 0 0 auto; padding: .55rem .6rem; border-radius: .45rem; color: var(--muted); font-size: .86rem; font-weight: 600; text-decoration: none; white-space: nowrap; transition: color .2s ease, background-color .2s ease; }
@@ -298,8 +298,12 @@ body.featured-panel-open { overflow: hidden; }
 
 /* About page */
 .about-page .page-hero .button-link { margin-top: .4rem; }
-.about-bio { display: grid; grid-template-columns: minmax(220px, .5fr) minmax(0, 1fr); gap: 3rem; padding-block: clamp(3rem, 5vw, 5rem); }
-.about-bio h2 { font-size: clamp(1.8rem, 3vw, 2.5rem); }
+.about-bio, .about-activity { display: grid; grid-template-columns: minmax(220px, .5fr) minmax(0, 1fr); gap: 3rem; padding-block: clamp(3rem, 5vw, 5rem); }
+.about-bio h2, .about-activity h2 { font-size: clamp(1.8rem, 3vw, 2.5rem); }
+.about-activity { align-items: start; border-top: 1px solid var(--line); }
+.activity-description { max-width: 22rem; margin-bottom: 0; color: var(--muted); }
+.activity-stats { width: min(100%, 495px); }
+.activity-stats img { display: block; width: 100%; height: auto; }
 .about-page-body { max-width: 46rem; }
 .about-page-body p { margin-bottom: 1rem; font-size: clamp(1rem, 1.2vw, 1.125rem); letter-spacing: normal; line-height: 1.65; }
 .about-page-body p:last-child { margin-bottom: 0; }
@@ -470,7 +474,7 @@ body.featured-panel-open { overflow: hidden; }
     .featured-panel h2 { font-size: clamp(2rem, 4vw, 2.75rem); }
 }
 @media (max-width: 640px) {
-    .about-bio { grid-template-columns: 1fr; gap: 1rem; }
+    .about-bio, .about-activity { grid-template-columns: 1fr; gap: 1rem; }
     .contact-links { grid-template-columns: 1fr; gap: 0; }
     .contact-item { padding-block: 12px; border-top: 1px solid var(--line); }
     .contact-item:last-child { border-bottom: 1px solid var(--line); }

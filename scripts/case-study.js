@@ -79,6 +79,12 @@ export const initCaseStudy = () => {
     }
 
     document.title = `${study.title} - Lekang Ji`;
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    const canonical = element("link");
+    canonical.rel = "canonical";
+    canonical.href = `${ogUrl.getAttribute("content")}?id=${encodeURIComponent(id)}`;
+    document.head.append(canonical);
+    ogUrl.setAttribute("content", canonical.href);
     document.querySelectorAll('meta[name="description"], meta[property="og:description"], meta[name="twitter:description"]').forEach((meta) => meta.setAttribute("content", study.summary));
     document.querySelectorAll('meta[property="og:title"], meta[name="twitter:title"]').forEach((meta) => meta.setAttribute("content", document.title));
     const hero = element("section", "case-hero");
