@@ -280,6 +280,11 @@ test("shared shell renders one contact area, active navigation, and drawn arrow 
     assert.deepEqual(links.map((item) => item.href), ["mailto:contact@lekangji.cc", "https://www.linkedin.com/in/lekangji/", "https://github.com/lekangji"]);
     assert.ok(links.every((item) => item.children.at(-1).className === "icon icon-external"));
     assert.ok(links.every((item) => item.children.at(-1).getAttribute("aria-hidden") === "true"));
+    for (const [index, name] of ["email", "linkedin", "github"].entries()) {
+        const icon = links[index].children[0].children[0].children[0];
+        assert.equal(icon.className, `icon icon-${name}`);
+        assert.equal(icon.getAttribute("aria-hidden"), "true");
+    }
 });
 
 test("legacy route aliases preserve query strings and anchors", async () => {

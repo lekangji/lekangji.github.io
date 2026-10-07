@@ -1,4 +1,4 @@
-import { element, link } from "./dom.js?v=7";
+import { element, icon, link } from "./dom.js?v=7";
 
 const pages = [
     ["Home", "/"], ["About", "/about/"], ["Projects", "/projects/"],
@@ -62,7 +62,9 @@ export const initSite = () => {
         for (const [label, href, address] of contacts) {
             const item = link("", href, !href.startsWith("mailto:"), "contact-item");
             const text = element("span", "contact-label");
-            text.append(element("strong", "", label), element("span", "contact-address", address));
+            const heading = element("strong", "", label);
+            heading.prepend(icon(label.toLowerCase()));
+            text.append(heading, element("span", "contact-address", address));
             item.prepend(text);
             list.append(item);
         }
