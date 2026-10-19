@@ -8,7 +8,7 @@
         {
             "id": "academic",
             "eyebrow": "Academic awards",
-            "title": "Algorithms, mathematics, and research.",
+            "title": "Algorithms, mathematics, and research",
             "description": "Results from programming, mathematics, science, and engineering competitions.",
             "items": [
                 {
@@ -68,7 +68,7 @@
         {
             "id": "robotics-awards",
             "eyebrow": "Robotics awards",
-            "title": "Team results built through iteration.",
+            "title": "Team results built through iteration",
             "description": "Competition milestones earned through autonomous development, driver practice, and team leadership.",
             "items": [
                 {
@@ -106,7 +106,7 @@
         {
             "id": "volunteering",
             "eyebrow": "Volunteering & outreach",
-            "title": "Sharing skills and showing up for others.",
+            "title": "Sharing skills and showing up for others",
             "description": "Service, teaching, and community programs beyond competition.",
             "items": [
                 {

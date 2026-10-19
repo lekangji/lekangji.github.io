@@ -4,10 +4,10 @@ import { projectMedia, mediaUrl } from "./project-media.mjs?v=7";
 const projectsDataUrl = new URL("../data/projects.json", import.meta.url);
 
 
-const buildProjectCard = (project, index, selectedIds, categoryName) => {
+const buildProjectCard = (project, index, categoryName) => {
     const card = makeElement("article", "project-card");
     const inner = makeElement("div", "project-card-inner");
-    const caseStudyUrl = selectedIds.has(project.id) ? `/projects/case-study/?id=${encodeURIComponent(project.id)}` : null;
+    const caseStudyUrl = `/projects/case-study/?id=${encodeURIComponent(project.id)}`;
 
     const visual = makeElement("div", "project-card-visual");
     visual.append(makeElement("span", "mono", String(index + 1).padStart(2, "0")));
@@ -27,12 +27,8 @@ const buildProjectCard = (project, index, selectedIds, categoryName) => {
     }
     const body = makeElement("div", "project-card-body");
     const title = makeElement("h3");
-    const titleLink = makeElement(caseStudyUrl || project.url ? "a" : "span", "project-card-title-link", project.title);
-    if (caseStudyUrl || project.url) titleLink.href = caseStudyUrl || project.url;
-    if (!caseStudyUrl && project.url) {
-        titleLink.target = "_blank";
-        titleLink.rel = "noreferrer";
-    }
+    const titleLink = makeElement("a", "project-card-title-link", project.title);
+    titleLink.href = caseStudyUrl;
     title.append(titleLink);
     body.append(
         makeElement("p", "project-card-meta mono", categoryName),
@@ -42,11 +38,9 @@ const buildProjectCard = (project, index, selectedIds, categoryName) => {
     const footer = makeElement("div", "project-card-footer mono");
     footer.append(makeElement("span", "", (project.stack ?? [])[0] ?? "PROJECT"));
     const actions = makeElement("span", "project-card-actions");
-    if (caseStudyUrl) {
-        const caseStudy = makeElement("a", "project-card-action", "CASE STUDY ↗");
-        caseStudy.href = caseStudyUrl;
-        actions.append(caseStudy);
-    }
+    const caseStudy = makeElement("a", "project-card-action", "PROJECT DETAILS ↗");
+    caseStudy.href = caseStudyUrl;
+    actions.append(caseStudy);
     if (project.url) {
         const github = makeElement("a", "project-card-action", project.linkLabel ?? "GITHUB ↗");
         github.href = project.url;
@@ -54,7 +48,6 @@ const buildProjectCard = (project, index, selectedIds, categoryName) => {
         github.rel = "noreferrer";
         actions.append(github);
     }
-    if (!actions.childElementCount) actions.textContent = "OVERVIEW";
     footer.append(actions);
     body.append(footer);
     if (cover || project.image) inner.append(visual);
@@ -63,13 +56,13 @@ const buildProjectCard = (project, index, selectedIds, categoryName) => {
     return card;
 };
 
-const buildCategory = (category, selectedIds) => {
+const buildCategory = (category) => {
     const section = makeElement("section", "archive-section");
     section.id = category.id;
     const header = makeElement("div", "archive-section-head");
     header.append(makeElement("p", "kicker mono", category.eyebrow), makeElement("h2", "", category.title));
     const list = makeElement("div", "project-card-grid");
-    (category.projects ?? []).forEach((project, index) => list.append(buildProjectCard(project, index, selectedIds, category.eyebrow)));
+    (category.projects ?? []).forEach((project, index) => list.append(buildProjectCard(project, index, category.eyebrow)));
     section.append(header, list);
     return section;
 };
@@ -81,8 +74,7 @@ export const initProjects = async () => {
         const response = await fetch(projectsDataUrl);
         if (!response.ok) throw new Error(`Projects request failed: ${response.status}`);
         const data = await response.json();
-        const selectedIds = new Set(data.featuredIds ?? []);
-        root.replaceChildren(...(data.projects ?? []).filter((category) => category.projects?.length).map((category) => buildCategory(category, selectedIds)));
+        root.replaceChildren(...(data.projects ?? []).filter((category) => category.projects?.length).map(buildCategory));
     } catch (error) {
         console.error(error);
         root.textContent = "The project archive is unavailable right now.";

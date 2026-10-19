@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readFile, access } from "node:fs/promises";
 import vm from "node:vm";
 import http from "node:http";
-import { projectMedia, loadMedia } from "./project-media.mjs";
+import { projectMedia, loadMedia, mediaUrl } from "./project-media.mjs";
 
 class Element {
     constructor() {
@@ -35,6 +35,7 @@ class Element {
 async function evaluate(file, globals) {
     const source = (await readFile(new URL(file, import.meta.url), "utf8"))
         .replace(/^import .*;\r?\n/gm, "")
+        .replace(/import\.meta\.url/g, JSON.stringify(new URL(file, import.meta.url).href))
         .replace(/export /g, "");
     const context = vm.createContext(globals);
     const dom = (await readFile(new URL("dom.js", import.meta.url), "utf8")).replace(/export /g, "");
@@ -74,16 +75,18 @@ test("blocked storage reads and writes leave theme initialization and toggling u
     assert.equal(unavailable.root.getAttribute("data-theme"), "dark");
 });
 
-test("body text and button labels meet WCAG AA contrast in both palettes", () => {
+test("body text and button labels meet WCAG AA contrast in both palettes", async () => {
     const luminance = (hex) => {
         const channels = hex.match(/[a-f\d]{2}/gi).map((value) => parseInt(value, 16) / 255)
             .map((value) => value <= .04045 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4);
         return channels[0] * .2126 + channels[1] * .7152 + channels[2] * .0722;
     };
-    const palettes = [
-        { bg: "f7f9fc", paper: "edf2f7", ink: "172538", muted: "53677f", accent: "326b9a", label: "ffffff" },
-        { bg: "0d1118", paper: "171e28", ink: "ecf4fd", muted: "a7b6c6", accent: "91bfe8", label: "0d1118" },
-    ];
+    const css = await readFile(new URL("../style.css", import.meta.url), "utf8");
+    const palettes = [":root", '[data-theme="dark"]'].map((selector) => {
+        const block = css.slice(css.indexOf(`${selector} {`)).split("}")[0];
+        const palette = Object.fromEntries([...block.matchAll(/--([\w-]+): #([a-f\d]{6});/gi)].map((match) => [match[1], match[2]]));
+        return { ...palette, label: palette["accent-ink"] };
+    });
     for (const palette of palettes) {
         for (const [foreground, background] of [["ink", "bg"], ["muted", "bg"], ["muted", "paper"], ["accent", "paper"], ["label", "accent"]]) {
             const values = [luminance(palette[foreground]), luminance(palette[background])].sort((a, b) => a - b);
@@ -175,6 +178,7 @@ test("dialog close restores opener and scroll; panel whitespace does not dismiss
 });
 
 test("explicit media waits for load and reports errors without extension probing", () => {
+    assert.equal(mediaUrl("https://example.com/project.png"), "https://example.com/project.png");
     const image = new Element();
     let loaded = false;
     let failed = false;
@@ -190,21 +194,39 @@ test("explicit media waits for load and reports errors without extension probing
     assert.equal(failed, true);
 });
 
-test("all four case studies render headings and metadata; invalid IDs render a recovery link", async () => {
-    for (const id of ["macro-ups", "print-failure-detection", "vex-33111a", "browser-gaming-platform", "missing", "__proto__", "constructor", ""]) {
+const projectData = JSON.parse(await readFile(new URL("../data/projects.json", import.meta.url), "utf8"));
+const archiveProjects = projectData.projects.flatMap((category) => category.projects);
+const descendants = (node) => [node, ...(node.children ?? []).flatMap(descendants)];
+
+test("every JSON project renders its stack, available links and metadata; invalid IDs recover", async () => {
+    for (const id of [...archiveProjects.map((project) => project.id), "missing", "__proto__", "constructor", ""]) {
         const root = new Element();
         const metas = [new Element(), new Element()];
         const ogUrl = new Element();
         const head = new Element();
         ogUrl.setAttribute("content", "https://lekang.cc/projects/case-study/");
         const document = { head, querySelector: (selector) => selector === '[data-case-study]' ? root : ogUrl, querySelectorAll: () => metas, createElement: () => new Element() };
-        const context = await evaluate("case-study.js", { document, projectMedia, loadMedia, window: { location: { search: `?id=${id}` } }, URLSearchParams });
-        vm.runInContext("initCaseStudy()", context);
+        const context = await evaluate("case-study.js", { document, projectMedia, loadMedia, fetch: async () => ({ ok: true, json: async () => projectData }), window: { location: { search: `?id=${id}` } }, URLSearchParams, URL });
+        await vm.runInContext("initCaseStudy()", context);
         if (["missing", "__proto__", "constructor", ""].includes(id)) {
             assert.equal(document.title, "Case study unavailable - Lekang Ji");
             assert.equal(root.children[0].children.at(-1).href, "/projects/");
         } else {
-            assert.equal(root.children.length, 4);
+            const project = archiveProjects.find((project) => project.id === id);
+            const nodes = descendants(root);
+            for (const field of ["statement", "problem", "built", "difficulty", "contribution", "outcome"]) {
+                if (project.caseStudy?.[field]) assert.ok(nodes.some((node) => node.textContent === project.caseStudy[field]), `${id}: ${field}`);
+            }
+            const stack = nodes.find((node) => node.className === "case-stack");
+            assert.deepEqual(stack.children.map((node) => node.textContent), project.stack);
+            const links = nodes.filter((node) => node.className?.includes("case-project-link"));
+            const github = project.githubUrl ?? (project.url?.startsWith("https://github.com/") ? project.url : null);
+            const site = project.siteUrl ?? (!github ? project.url : null);
+            assert.deepEqual(links.map((node) => node.href), [site, github].filter(Boolean));
+            for (const link of links) {
+                assert.equal(link.target, "_blank");
+                assert.equal(link.rel, "noopener noreferrer");
+            }
             assert.match(document.title, / - Lekang Ji$/);
             assert.ok(metas[0].getAttribute("content"));
             assert.equal(head.children[0].rel, "canonical");
@@ -212,6 +234,20 @@ test("all four case studies render headings and metadata; invalid IDs render a r
             assert.equal(ogUrl.getAttribute("content"), head.children[0].href);
         }
     }
+});
+
+test("project request failure offers recovery and archive cards all open project pages", async () => {
+    const root = new Element();
+    const document = { head: new Element(), querySelector: () => root, querySelectorAll: () => [], createElement: () => new Element() };
+    const failure = await evaluate("case-study.js", { document, URL, URLSearchParams, window: { location: { search: "?id=macro-ups" } }, fetch: async () => ({ ok: false, status: 503 }), console: { error() {} } });
+    await vm.runInContext("initCaseStudy()", failure);
+    assert.match(root.children[0].children[1].textContent, /unavailable/);
+    assert.equal(root.children[0].children.at(-1).href, "/projects/");
+
+    const context = await evaluate("projects.js", { document, URL, projectMedia, fetch: async () => ({ ok: true, json: async () => projectData }) });
+    await vm.runInContext("initProjects()", context);
+    const titles = descendants(root).filter((node) => node.className === "project-card-title-link");
+    assert.deepEqual(titles.map((node) => node.href), archiveProjects.map((project) => `/projects/case-study/?id=${project.id}`));
 });
 
 test("failed archive and award requests replace loading text with clear messages", async () => {
@@ -256,13 +292,19 @@ test("six pages and local asset references resolve over local HTTP", async () =>
             for (const [, path] of source.matchAll(/from "([^"]+)"/g)) await access(new URL(path.split("?")[0], new URL(module, base)));
         }
         for (const assets of Object.values(projectMedia)) for (const asset of assets) await access(new URL(asset.src, base));
+        const css = await readFile(new URL("style.css", base), "utf8");
+        for (const [, path] of css.matchAll(/url\("(\/images\/icons\/[^"\)]+)"\)/g)) {
+            const response = await fetch(`${address}${path}`);
+            assert.equal(response.status, 200, path);
+            assert.match(await response.text(), /<svg[\s>]/);
+        }
     } finally {
         server.closeAllConnections();
         await new Promise((resolve) => server.close(resolve));
     }
 });
 
-test("shared shell renders one contact area, active navigation, and drawn arrow icons", async () => {
+test("shared shell keeps three accessible contact icons in the navbar and no contact footer", async () => {
     const header = new Element();
     header.dataset = { page: "About" };
     const footer = new Element();
@@ -272,19 +314,75 @@ test("shared shell renders one contact area, active navigation, and drawn arrow 
     vm.runInContext("initSite()", context);
     assert.equal(cleanUrl, "/about?view=all#contact");
     const nav = header.children[0];
-    assert.equal(nav.children[0].textContent, "Lekang Ji");
+    assert.equal(nav.children[0].children[0].textContent, "Lekang");
+    assert.equal(nav.children[0].children[0].className, "name-first");
+    assert.equal(nav.children[0].children[2].textContent, "Ji");
+    assert.equal(nav.children[0].children[2].className, "name-last");
     assert.equal(nav.children[1].children.find((item) => item.textContent === "About").getAttribute("aria-current"), "page");
-    const contact = footer.children[0];
+    const contact = nav.children.find((item) => item.className === "nav-contacts");
     assert.equal(contact.id, "contact");
-    const links = contact.children[1].children;
+    const links = contact.children;
     assert.deepEqual(links.map((item) => item.href), ["mailto:contact@lekangji.cc", "https://www.linkedin.com/in/lekangji/", "https://github.com/lekangji"]);
-    assert.ok(links.every((item) => item.children.at(-1).className === "icon icon-external"));
-    assert.ok(links.every((item) => item.children.at(-1).getAttribute("aria-hidden") === "true"));
     for (const [index, name] of ["email", "linkedin", "github"].entries()) {
-        const icon = links[index].children[0].children[0].children[0];
+        assert.equal(links[index].getAttribute("aria-label"), ["Email", "LinkedIn", "GitHub"][index]);
+        assert.equal(links[index].children.length, 1);
+        const icon = links[index].children[0];
         assert.equal(icon.className, `icon icon-${name}`);
         assert.equal(icon.getAttribute("aria-hidden"), "true");
     }
+    assert.equal(links[1].rel, "noopener noreferrer");
+    assert.equal(links[2].target, "_blank");
+    assert.equal(footer.children.length, 1);
+    assert.equal(footer.children[0].className, "footer-bottom");
+    assert.ok(nav.children[1].children.every((item) => item.textContent !== "Contact"));
+    for (const file of ["../index.html", "../about/index.html", "../projects/index.html", "../achievements/index.html", "../resume/index.html", "../projects/case-study/index.html"]) {
+        const html = await readFile(new URL(file, import.meta.url), "utf8");
+        assert.doesNotMatch(html, /contact-section|href="#contact"/);
+        assert.match(html, /class="nav-contacts"/);
+        assert.doesNotMatch(html, /wordmark-dot|hero-period/);
+        for (const name of ["Email", "LinkedIn", "GitHub"]) assert.ok(html.includes(`aria-label="${name}"`));
+        if (file === "../index.html") {
+            assert.match(html, /<section class="work-section wrap" id="work" aria-labelledby="work-title">/);
+            assert.match(html, /<h2 id="work-title">Featured projects/);
+        }
+    }
+});
+
+test("activity widgets recover from image errors and coding stats follow the selected theme", async () => {
+    const document = new Element();
+    document.documentElement = new Element();
+    document.documentElement.setAttribute("data-theme", "light");
+    const github = new Element();
+    github.dataset = { activityStatus: "github-status" };
+    github.complete = true;
+    github.naturalWidth = 0;
+    const coding = new Element();
+    coding.dataset = { activityStatus: "coding-status" };
+    coding.src = "https://github-readme-stats.hackclub.dev/api/wakatime?username=797&theme=dark";
+    const githubStatus = new Element();
+    const codingStatus = new Element();
+    document.querySelectorAll = () => [github, coding];
+    document.getElementById = (id) => ({ wakatimeStats: coding, "github-status": githubStatus, "coding-status": codingStatus })[id];
+    const context = await evaluate("activity.js", { document, URL });
+    vm.runInContext("initActivity()", context);
+    assert.equal(github.hidden, true);
+    assert.match(githubStatus.textContent, /unavailable/);
+    assert.equal(new URL(coding.src).searchParams.get("theme"), "default");
+    assert.equal(new URL(coding.src).searchParams.get("username"), "797");
+    github.emit("load");
+    assert.equal(github.hidden, false);
+    assert.equal(githubStatus.hidden, true);
+    coding.emit("error");
+    assert.equal(coding.hidden, true);
+    document.documentElement.setAttribute("data-theme", "dark");
+    document.emit("theme-change");
+    assert.equal(coding.hidden, false);
+    assert.equal(new URL(coding.src).searchParams.get("theme"), "dark");
+    coding.emit("load");
+    assert.equal(codingStatus.hidden, true);
+    const about = await readFile(new URL("../about/index.html", import.meta.url), "utf8");
+    assert.ok(about.indexOf('class="about-activity"') > about.indexOf('class="about-timeline"'));
+    assert.match(about, /https:\/\/ghchart\.rshah\.org\/2967a0\/lekangji/);
 });
 
 test("legacy route aliases preserve query strings and anchors", async () => {
@@ -313,7 +411,7 @@ test("section tones follow content order and Contact waits for both archives", a
     const source = (await readFile(new URL("../script.js", import.meta.url), "utf8")).replace(/^import .*;\r?\n/gm, "");
     vm.runInNewContext(source, {
         document: { addEventListener: (_, handler) => { ready = handler; } },
-        initSite() {}, initTheme() {}, initUi() {}, initCaseStudy() {},
+        initSite() {}, initTheme() {}, initUi() {}, initCaseStudy() {}, initActivity() {},
         initProjects: () => projects, initAwards: async () => {},
         initSectionBackgrounds: () => calls.push("backgrounds"),
         window: { location: { hash: "#contact" } },

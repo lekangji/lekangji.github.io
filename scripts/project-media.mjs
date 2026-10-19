@@ -7,7 +7,7 @@ export const projectMedia = {
     "browser-gaming-platform": [],
 };
 
-export const mediaUrl = (src) => new URL(`../${src}`, import.meta.url).href;
+export const mediaUrl = (src) => new URL(src, new URL("../", import.meta.url)).href;
 
 export function loadMedia(image, asset, { onLoad = () => {}, onError = () => {} } = {}) {
     image.alt = asset.alt;

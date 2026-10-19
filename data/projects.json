@@ -9,7 +9,7 @@
         {
             "id": "hardware",
             "eyebrow": "Hardware & Electronics",
-            "title": "Boards and systems built from the circuit up.",
+            "title": "Boards and systems built from the circuit up",
             "description": "Custom PCBs, power systems, embedded devices, and assistive technology designed through schematic, CAD, assembly, and testing.",
             "projects": [
                 {
@@ -22,45 +22,152 @@
                 {
                     "id": "adjustable-power-supply",
                     "title": "Adjustable Bench Power Supply",
-                    "description": "A high-power adjustable bench supply with CC/CV control, a custom enclosure, active cooling, and real-time output monitoring.",
-                    "stack": ["ESP32", "Power Electronics", "CAD"],
-                    "url": "https://github.com/lekangji/Adjustable-Power-Supply"
+                    "description": "An adjustable bench supply designed for 2.5–38 V output and up to 20 A, with ESP32 monitoring, active cooling, and a 3D-printed enclosure.",
+                    "stack": ["ESP32", "CC/CV Power Electronics", "INA228", "KiCad", "CAD"],
+                    "url": "https://github.com/lekangji/Adjustable-Power-Supply",
+                    "caseStudy": {
+                        "statement": "A configurable bench supply for testing circuits at different voltages and current limits.",
+                        "problem": "Bench testing needs adjustable power and visible output readings without the cost of a commercial lab supply.",
+                        "built": "The documented design combines a CC/CV buck converter, an ESP32, an INA228 power monitor, a TFT display, and temperature sensors. A custom enclosure houses the wiring, banana terminals, cooling fans, and circuit breaker.",
+                        "difficulty": "The README specifies voltage and current limits separately; achievable output depends on the operating point and upstream power supply.",
+                        "outcome": "The repository provides enclosure CAD, wiring diagrams, and a bill of materials. Its 500 W description, 600 W converter rating, and 480 W input supply do not establish a measured continuous output rating."
+                    },
+                    "image": "https://raw.githubusercontent.com/lekangji/Adjustable-Power-Supply/main/images/CADfull.png",
+                    "images": [
+                        {
+                            "src": "https://raw.githubusercontent.com/lekangji/Adjustable-Power-Supply/main/images/CADfull.png",
+                            "alt": "CAD render of the adjustable power-supply enclosure"
+                        },
+                        {
+                            "src": "https://raw.githubusercontent.com/lekangji/Adjustable-Power-Supply/main/images/wiringdiagram2.png",
+                            "alt": "Power-supply wiring diagram in KiCad"
+                        }
+                    ]
                 },
                 {
                     "id": "pico-devboard",
                     "title": "Pico+ Devboard",
-                    "image": "https://raw.githubusercontent.com/lekangji/Pico-Devboard/refs/heads/main/Images/BackRender.png",
+                    "image": "https://raw.githubusercontent.com/lekangji/Pico-Devboard/main/Images/BackRender.png",
                     "description": "A compact custom RP2040 board with 16 MB flash, USB-C, battery input, voltage monitoring, and labeled GPIO.",
-                    "stack": ["RP2040", "KiCad", "PCB Design"],
-                    "url": "https://github.com/lekangji/Pico-Devboard"
+                    "stack": ["RP2040", "16 MB QSPI Flash", "USB-C", "KiCad", "PCB Design"],
+                    "url": "https://github.com/lekangji/Pico-Devboard",
+                    "caseStudy": {
+                        "statement": "More flash and flexible power input in a Pico-sized board.",
+                        "problem": "Standard development boards can limit available storage and power-input options.",
+                        "built": "The RP2040 board combines 16 MB QSPI flash, USB-C, diode-ORed battery input, a 500 mA regulator, and VSYS sensing on ADC3. It also includes BOOTSEL and reset buttons, power and GPIO25 LEDs, and labeled headers.",
+                        "outcome": "The repository includes KiCad and manufacturing files, a BOM, CAD, and board photographs. The supplied third-party CircuitPython firmware is explicitly marked untested."
+                    },
+                    "images": [
+                        {
+                            "src": "https://raw.githubusercontent.com/lekangji/Pico-Devboard/main/Images/BackRender.png",
+                            "alt": "Pico+ Devboard back-side render"
+                        },
+                        {
+                            "src": "https://raw.githubusercontent.com/lekangji/Pico-Devboard/main/Images/frontpicture.png",
+                            "alt": "Photograph of the Pico+ Devboard front"
+                        }
+                    ]
                 },
                 {
                     "id": "macro-ups",
+                    "caseStudy": {
+                        "statement": "One charging station that also supplies backup power during an outage.",
+                        "summary": "A LiFePO₄ charging UPS specified for 180 Wh storage and 250 W continuous USB output, with four USB-C ports, four USB-A ports, and automatic power-source switchover.",
+                        "problem": "The project began with too few outlets at a shared household charging station and a need to keep devices charged through power outages.",
+                        "built": "MacroUPS combines a 24 V LiFePO₄ battery, a mains supply, USB charging modules, and custom ideal-diode boards. Four USB-C ports and four USB-A ports share the enclosure, with fuses, switches, cooling fans, and a battery indicator.",
+                        "difficulty": "The ideal-diode board addresses periodic voltage drops described in inexpensive alternative modules, which could otherwise cause unwanted switching between battery and mains.",
+                        "contribution": "System concept, electronics design, and integration of the backup-power hardware.",
+                        "outcome": "The repository includes a finished-build photograph, enclosure CAD, wiring diagrams, and fabrication files for the final ideal-diode board. Capacity, output power, and switchover figures are documented specifications.",
+                        "stages": [
+                            "Mains + LiFePO₄ battery",
+                            "Ideal-diode switchover",
+                            "4 USB-C + 4 USB-A ports"
+                        ]
+                    },
                     "title": "MacroUPS",
-                    "description": "A 180 Wh LiFePO₄ backup power system with eight USB outputs, 250 W continuous delivery, and instantaneous outage switchover.",
-                    "stack": ["Power Delivery", "LiFePO4", "Custom PCB"],
-                    "url": "https://github.com/lekangji/MacroUPS"
+                    "description": "A LiFePO₄ charging UPS specified for 180 Wh storage and 250 W continuous USB output, with four USB-C ports, four USB-A ports, and automatic power-source switchover.",
+                    "stack": ["LiFePO₄", "USB Power Delivery", "Ideal-Diode PCB", "CAD"],
+                    "url": "https://github.com/lekangji/MacroUPS",
+                    "image": "https://raw.githubusercontent.com/lekangji/MacroUPS/main/images/finalproduct.png",
+                    "images": [
+                        {
+                            "src": "https://raw.githubusercontent.com/lekangji/MacroUPS/main/images/finalproduct.png",
+                            "alt": "Photograph of the assembled MacroUPS"
+                        },
+                        {
+                            "src": "https://raw.githubusercontent.com/lekangji/MacroUPS/main/images/cadpreview.png",
+                            "alt": "MacroUPS enclosure CAD preview"
+                        }
+                    ]
                 },
                 {
                     "id": "desk-lock",
                     "title": "NFC Desk Lock",
-                    "description": "An ESP32-controlled drawer lock with NFC authentication, servo actuation, and automatic relocking when the drawer closes.",
-                    "stack": ["ESP32", "NFC", "CAD"],
-                    "url": "https://github.com/lekangji/Desk-Lock"
+                    "description": "An ESP32 drawer lock using a PN532 NFC reader, servo latch, and photoresistor to relock after the drawer closes.",
+                    "stack": ["ESP32", "PN532 NFC", "I²C", "Servo Control", "CAD"],
+                    "url": "https://github.com/lekangji/Desk-Lock",
+                    "caseStudy": {
+                        "statement": "Unlock a drawer with an NFC card and relock it after closing.",
+                        "problem": "The project replaces a commercial desk lock with a configurable NFC-based mechanism.",
+                        "built": "A PN532 reader sends card data to an ESP32 over I²C. Authorized cards trigger a servo latch; a photoresistor detects the darker interior when the drawer closes, followed by a configurable relock delay of 10 seconds by default.",
+                        "contribution": "Electronics integration, custom NFC-card design, and component enclosures. The README credits the servo holder as an existing design.",
+                        "outcome": "The repository documents the wiring, component cases, full assembly, and NFC-card PCB."
+                    },
+                    "image": "https://raw.githubusercontent.com/lekangji/Desk-Lock/main/cad.png",
+                    "images": [
+                        {
+                            "src": "https://raw.githubusercontent.com/lekangji/Desk-Lock/main/cad.png",
+                            "alt": "CAD assembly of the NFC desk lock"
+                        },
+                        {
+                            "src": "https://raw.githubusercontent.com/lekangji/Desk-Lock/main/wiringdiagram.png",
+                            "alt": "NFC desk-lock wiring diagram"
+                        }
+                    ]
                 },
                 {
                     "id": "sound-direction-finder",
                     "title": "Sound Direction Finder",
-                    "description": "An ESP32 system that estimates a sound source in 3D using time-difference-of-arrival measurements from four MEMS microphones.",
-                    "stack": ["ESP32", "TDOA", "MEMS Microphones"],
-                    "url": "https://github.com/lekangji/Sound-Direction-Finder"
+                    "description": "An ESP32 sound-localization project using four INMP441 microphones and time differences of arrival to estimate a source's direction in 3D.",
+                    "stack": ["ESP32", "INMP441 MEMS Microphones", "TDOA", "Onshape"],
+                    "url": "https://github.com/lekangji/Sound-Direction-Finder",
+                    "caseStudy": {
+                        "statement": "Estimate where a sound came from using the arrival times at four microphones.",
+                        "built": "Four INMP441 microphones mount at known positions in a CAD frame. The project uses time differences of arrival to estimate the source direction, with two optional continuous-rotation servos for pointing.",
+                        "difficulty": "The microphone positions must be known for the timing differences to describe a direction.",
+                        "outcome": "The repository supplies assembly instructions, a wiring diagram, component specifications, and downloadable CAD."
+                    },
+                    "image": "https://raw.githubusercontent.com/lekangji/Sound-Direction-Finder/main/CAD.png",
+                    "images": [
+                        {
+                            "src": "https://raw.githubusercontent.com/lekangji/Sound-Direction-Finder/main/CAD.png",
+                            "alt": "CAD frame for the sound-direction finder"
+                        },
+                        {
+                            "src": "https://raw.githubusercontent.com/lekangji/Sound-Direction-Finder/main/wiringdiagram.png",
+                            "alt": "Sound-direction finder microphone wiring diagram"
+                        }
+                    ]
                 },
                 {
                     "id": "usb-hub",
                     "title": "Four-Port USB Hub",
-                    "description": "A practical USB 2.0 hub PCB designed around the SL2.1A with matched differential data pairs and fabrication files.",
-                    "stack": ["PCB Design", "USB 2.0", "EasyEDA"],
-                    "url": "https://github.com/lekangji/USB-Hub"
+                    "description": "A four-port USB 2.0 hub PCB built around the SL2.1A in EasyEDA, with matched differential pairs and fabrication files.",
+                    "stack": ["EasyEDA", "SL2.1A", "USB 2.0", "PCB Design"],
+                    "url": "https://github.com/lekangji/USB-Hub",
+                    "caseStudy": {
+                        "statement": "A practical first PCB: one USB connection expanded into four ports.",
+                        "built": "The board provides four USB-A ports carrying data and power, a power indicator, and matched D+/D− differential pairs.",
+                        "contribution": "A first PCB-design project built while learning EasyEDA with a Hack Club tutorial.",
+                        "outcome": "Gerbers, pick-and-place data, and the bill of materials are included for fabrication and assembly."
+                    },
+                    "image": "https://raw.githubusercontent.com/lekangji/USB-Hub/main/USBHUB.png",
+                    "images": [
+                        {
+                            "src": "https://raw.githubusercontent.com/lekangji/USB-Hub/main/USBHUB.png",
+                            "alt": "Four-port USB 2.0 hub board design"
+                        }
+                    ]
                 },
                 {
                     "id": "raspberry-pi-adblock",
@@ -74,14 +181,29 @@
         {
             "id": "robotics",
             "eyebrow": "Robotics",
-            "title": "Autonomous systems built for competition.",
+            "title": "Autonomous systems built for competition",
             "description": "Robot control, autonomous routines, and iterative tuning developed for VEX competition environments.",
             "projects": [
                 {
                     "id": "vex-33111a",
+                    "caseStudy": {
+                        "title": "Competition Robotics",
+                        "statement": "Autonomous and driver-control software across two VEX competition seasons.",
+                        "summary": "VEX V5 competition code spanning High Stakes and Push Back, with C++, PROS, LemLib odometry, and an autonomous-routine selector.",
+                        "problem": "Competition software must support changing robot mechanisms and selectable match routines.",
+                        "built": "The repository covers the 2024–2025 High Stakes and 2025–2026 Push Back seasons. Push Back moved from the default VEX SDK to PROS, adopted LemLib for odometry, and added a selector for autonomous routines.",
+                        "difficulty": "The autonomous selector replaces separate programs for each routine, while the season folders retain code for different robot builds.",
+                        "contribution": "Lead programming and co-captaincy, with ownership of autonomous and driver-control development.",
+                        "outcome": "The README records Worlds qualification in both seasons, a 2024–2025 state finalist finish, and a 2025–2026 state championship and Think Award.",
+                        "stages": [
+                            "Routine selection",
+                            "PROS + LemLib control",
+                            "VEX V5 robot"
+                        ]
+                    },
                     "title": "33111A VEX Competition Code",
-                    "description": "The codebase behind VEX competition work, including autonomous and driver-control systems developed as lead programmer and co-captain.",
-                    "stack": ["C++", "VEX V5", "Autonomous Control"],
+                    "description": "VEX V5 competition code spanning High Stakes and Push Back, with C++, PROS, LemLib odometry, and an autonomous-routine selector.",
+                    "stack": ["C++", "VEX V5", "PROS", "LemLib"],
                     "url": "https://github.com/lekangji/33111A-VEX"
                 }
             ]
@@ -89,123 +211,283 @@
         {
             "id": "ai",
             "eyebrow": "AI, Vision & Simulation",
-            "title": "Models and simulations that learn, see, and move.",
+            "title": "Models and simulations that learn, see, and move",
             "description": "Applied machine learning and custom simulation work focused on real-time behavior and visual systems.",
             "projects": [
                 {
                     "id": "print-failure-detection",
+                    "caseStudy": {
+                        "statement": "Compare several vision pipelines for spotting failed 3D prints early.",
+                        "problem": "Spaghetti, layer shifts, and detached prints can waste printing time and filament before anyone notices.",
+                        "built": "The repository includes Haar-cascade experiments, a TensorFlow/Keras binary classifier, and YOLO object-detection training and webcam inference. Its README describes a dataset of more than 400 manually labeled images from real print scenarios.",
+                        "difficulty": "The project compares lightweight recognition, whole-image classification, and bounding-box detection to explore speed and localization trade-offs.",
+                        "contribution": "Computer-vision pipeline and application of detection models to a concrete manufacturing problem.",
+                        "outcome": "Training scripts, datasets, sample detections, and a demo video are included. The README does not report quantitative accuracy or measured filament savings.",
+                        "stages": [
+                            "Camera frames",
+                            "Classifier or detector",
+                            "Failure prediction"
+                        ]
+                    },
                     "title": "3D Print Failure Detection",
-                    "description": "A computer-vision pipeline designed to detect failed 3D prints and reduce filament waste and unattended-printing risk.",
-                    "stack": ["TensorFlow", "YOLO", "OpenCV"],
-                    "url": "https://github.com/lekangji/Print-Failure-Detection"
+                    "description": "A 3D-print failure-detection project comparing Haar cascades, TensorFlow classifiers, and YOLO detectors using 400+ manually labeled images.",
+                    "stack": ["Python", "OpenCV", "TensorFlow", "Ultralytics YOLO"],
+                    "url": "https://github.com/lekangji/Print-Failure-Detection",
+                    "image": "https://raw.githubusercontent.com/lekangji/Print-Failure-Detection/master/demo.png",
+                    "images": [
+                        {
+                            "src": "https://raw.githubusercontent.com/lekangji/Print-Failure-Detection/master/demo.png",
+                            "alt": "Example output from the print-failure detection project"
+                        }
+                    ]
                 },
                 {
                     "id": "ai-cars",
                     "title": "AI Cars",
-                    "description": "A self-driving car simulation that uses NEAT to evolve driving behavior inside a custom Pygame environment.",
-                    "stack": ["Python", "Pygame", "NEAT"],
-                    "url": "https://github.com/lekangji/AI-Cars"
+                    "description": "A Pygame driving simulation that evolves neural-network-controlled cars through selection, mutation, and crossover on custom checkpoint maps.",
+                    "stack": ["Python", "Pygame", "NEAT", "Tkinter"],
+                    "url": "https://github.com/lekangji/AI-Cars",
+                    "caseStudy": {
+                        "statement": "Watch driving behavior evolve inside a configurable simulation.",
+                        "built": "Each car uses a neural network to make driving decisions. Evolution selects and varies networks across generations, while custom maps and checkpoints define the driving task.",
+                        "difficulty": "Population size, mutation rate, and fitness criteria can be changed to experiment with learning behavior.",
+                        "outcome": "The repository provides a real-time visualization and tools for creating custom maps."
+                    },
+                    "image": "https://raw.githubusercontent.com/lekangji/AI-Cars/main/static/AI-Cars.png",
+                    "images": [
+                        {
+                            "src": "https://raw.githubusercontent.com/lekangji/AI-Cars/main/static/AI-Cars.png",
+                            "alt": "AI Cars driving-simulation preview"
+                        }
+                    ]
                 },
                 {
                     "id": "ai-fluid-simulation",
                     "title": "AI Fluid Simulation",
-                    "description": "An interactive fluid simulation built in Python with numerical and machine-learning tooling.",
-                    "stack": ["PyTorch", "NumPy", "Matplotlib"],
-                    "url": "https://github.com/lekangji/AI-Fluid-Simulation"
+                    "description": "A Python fluid-prediction experiment with PyTorch models and an interactive comparison between learned and baseline simulations.",
+                    "stack": ["Python", "PyTorch", "NumPy", "Matplotlib"],
+                    "url": "https://github.com/lekangji/AI-Fluid-Simulation",
+                    "caseStudy": {
+                        "statement": "Compare a learned fluid predictor with its baseline simulation.",
+                        "built": "The project separates training, generated-starting-state tests, visualization, and interactive comparison into dedicated scripts. A shared simulation class contains the AI and baseline models.",
+                        "outcome": "The repository includes model-testing and interactive comparison tools. The README does not publish a numerical accuracy or performance benchmark."
+                    },
+                    "image": "https://raw.githubusercontent.com/lekangji/AI-Fluid-Simulation/main/thumbnail.jpg",
+                    "images": [
+                        {
+                            "src": "https://raw.githubusercontent.com/lekangji/AI-Fluid-Simulation/main/thumbnail.jpg",
+                            "alt": "AI fluid-prediction simulation preview"
+                        }
+                    ]
                 }
             ]
         },
         {
             "id": "software",
             "eyebrow": "Software & Tools",
-            "title": "Useful tools and experimental playgrounds.",
+            "title": "Useful tools and experimental playgrounds",
             "description": "Desktop utilities, workflow automation, graphics experiments, and small tools built to solve a specific problem.",
             "projects": [
                 {
                     "id": "keepalive",
                     "title": "Keepalive",
-                    "description": "Explore Keepalive at keepalive.lekang.cc.",
-                    "stack": ["Web"],
-                    "url": "https://keepalive.lekang.cc/",
-                    "linkLabel": "VISIT SITE ↗"
+                    "description": "A static web app that keeps the screen awake, with timed and unlimited sessions, activity totals, and a floating control window.",
+                    "stack": ["JavaScript", "Screen Wake Lock API", "Document Picture-in-Picture", "NoSleep.js"],
+                    "url": "https://keepalive.lekangji.cc/",
+                    "linkLabel": "VISIT SITE ↗",
+                    "githubUrl": "https://github.com/lekangji/keepalive",
+                    "siteUrl": "https://keepalive.lekangji.cc/",
+                    "caseStudy": {
+                        "statement": "Keep the screen awake for a timed session or for as long as needed.",
+                        "built": "The app supports countdown and unlimited modes, pause and resume, daily and weekly active-time totals, and an optional floating control window using Document Picture-in-Picture. Browsers without native Screen Wake Lock can use a NoSleep.js video fallback.",
+                        "difficulty": "Wake locks can be released when a document is hidden. The session lifecycle handles visibility changes and transfers controls to the floating document in supporting browsers.",
+                        "outcome": "A static site with dependency-free regression tests. Native floating-window placement and OS sleep prevention still require checks in a supporting browser; the page releases wake locks rather than shutting down the computer."
+                    }
                 },
                 {
                     "id": "browser-gaming-platform",
+                    "siteUrl": "https://55gms.com/",
+                    "caseStudy": {
+                        "statement": "A browser platform bringing games, apps, and web access into one site.",
+                        "problem": "Serving a game catalog and proxy requires a running backend rather than static hosting alone.",
+                        "built": "The project combines a web interface with a Node.js/Express server. Its dependency manifest includes Scramjet and Wisp proxy tooling, PostgreSQL with Sequelize, Redis, and Socket.IO.",
+                        "difficulty": "The README requires server-capable hosting and documents deployment through managed services or a VPS.",
+                        "contribution": "I co-founded the platform and contributed to its build as the product grew. The README credits Interstellar for some proxy code and navigation, and 3kh0 for some game sources.",
+                        "outcome": "The repository publishes deployment instructions and the platform's live site. It does not provide a verifiable audience-size metric.",
+                        "stages": [
+                            "Browser interface",
+                            "Node.js server + proxy",
+                            "Games, apps + web access"
+                        ]
+                    },
                     "title": "55GMS",
-                    "description": "A browser-based gaming platform I co-founded that grew to serve millions of users.",
-                    "stack": ["JavaScript", "Node.js", "Web Platform"],
+                    "description": "A browser-based games, apps, and proxy platform I co-founded, backed by a Node.js server.",
+                    "stack": ["JavaScript", "Node.js", "Express", "PostgreSQL", "Redis", "Socket.IO", "Scramjet"],
                     "url": "https://github.com/55gms/55GMS"
                 },
                 {
                     "id": "soft-body-physics",
                     "title": "Soft Body Physics Sandbox",
-                    "description": "A custom 2D soft-body physics engine demonstrating elasticity, deformation, and interactive simulation.",
-                    "stack": ["Python", "Pygame", "Physics"],
-                    "url": "https://github.com/lekangji/Soft-Body-Physics"
+                    "description": "An interactive Python/Pygame point-mass and spring engine with cloth, bridge, and earthquake demos, mouse dragging, and wall collisions.",
+                    "stack": ["Python", "Pygame", "Mass-Spring Physics"],
+                    "url": "https://github.com/lekangji/Soft-Body-Physics",
+                    "caseStudy": {
+                        "statement": "Explore deformation and elasticity by dragging simulated soft bodies.",
+                        "built": "Point masses and springs form deformable 2D objects, with wall collisions and mouse interaction. Stiffness, damping, and gravity can be changed through configuration.",
+                        "outcome": "The repository includes cloth, bridge, and earthquake demonstrations, a debug mode, and a reset control."
+                    },
+                    "image": "https://raw.githubusercontent.com/lekangji/Soft-Body-Physics/main/Soft%20Body%20Simulation%20Thumbnail.png",
+                    "images": [
+                        {
+                            "src": "https://raw.githubusercontent.com/lekangji/Soft-Body-Physics/main/Soft%20Body%20Simulation%20Thumbnail.png",
+                            "alt": "Soft-body physics simulation preview"
+                        }
+                    ]
                 },
                 {
                     "id": "roblox-account-manager",
                     "title": "Roblox Account Manager",
-                    "description": "A desktop toolkit for managing multiple development accounts with browser automation and a PyQt interface.",
-                    "stack": ["Python", "PyQt", "Selenium"],
-                    "url": "https://github.com/lekangji/Roblox-Account-Manager"
+                    "description": "A Windows PyQt5 app for managing Roblox accounts, with Selenium-based login, saved-account controls, settings, and multi-instance support.",
+                    "stack": ["Python", "PyQt5", "Selenium", "Argon2", "Fernet"],
+                    "url": "https://github.com/lekangji/Roblox-Account-Manager",
+                    "caseStudy": {
+                        "statement": "Manage multiple Roblox accounts from one desktop interface.",
+                        "built": "The PyQt5 interface organizes saved accounts and settings, while a Selenium launcher opens authenticated browser sessions. Separate tooling supports multiple Roblox instances, and the app includes an integrated setup FAQ.",
+                        "difficulty": "The application targets Windows; multi-instance behavior depends on the Roblox installation.",
+                        "outcome": "The repository provides the desktop interface, account launcher, settings panel, and multi-instance helper."
+                    }
                 },
                 {
                     "id": "ocr-screenshot",
                     "title": "OCR Screenshot",
-                    "description": "A focused utility for extracting editable text from screenshots using optical character recognition.",
-                    "stack": ["Python", "OCR"],
-                    "url": "https://github.com/lekangji/OCR-Screenshot"
+                    "description": "A Windows screenshot-to-text utility using Tesseract OCR, a global hotkey, and the native snipping overlay to copy recognized text to the clipboard.",
+                    "stack": ["Python", "Tesseract OCR", "Windows Snipping Tool"],
+                    "url": "https://github.com/lekangji/OCR-Screenshot",
+                    "caseStudy": {
+                        "statement": "Select a screen region and paste its text without retyping it.",
+                        "built": "A global hotkey opens the Windows snipping overlay, sends the selected image through Tesseract, and copies the recognized text to the clipboard. The tool also prevents duplicate instances and optionally cleans up saved screenshot files.",
+                        "difficulty": "The workflow depends on Windows 10/11, Tesseract language data, and the quality of the captured text."
+                    }
                 },
                 {
                     "id": "eye-break",
                     "title": "Eye Break",
-                    "description": "A desktop reminder app that supports healthier screen habits with the 20-20-20 rule.",
-                    "stack": ["Python", "PyQt"],
-                    "url": "https://github.com/lekangji/Eye-Break"
+                    "description": "A PyQt6 desktop break reminder with configurable intervals, sound and tray alerts, and a countdown that pauses while Windows is locked or asleep.",
+                    "stack": ["Python", "PyQt6", "Windows"],
+                    "url": "https://github.com/lekangji/Eye-Break",
+                    "caseStudy": {
+                        "statement": "A configurable reminder to take regular screen breaks.",
+                        "built": "EyeBreak v3 provides work and break intervals, sound selection and volume, tray notifications, and startup-display options. Personal settings are saved locally, and closing the control window can leave the app in the system tray.",
+                        "difficulty": "The countdown pauses while Windows is locked or asleep; the tray menu provides an explicit way to quit.",
+                        "outcome": "The repository includes default settings and notification audio, plus an immediate-reminder test mode."
+                    },
+                    "image": "https://raw.githubusercontent.com/lekangji/Eye-Break/main/thumbnail.png",
+                    "images": [
+                        {
+                            "src": "https://raw.githubusercontent.com/lekangji/Eye-Break/main/thumbnail.png",
+                            "alt": "EyeBreak project preview"
+                        }
+                    ]
                 },
                 {
                     "id": "terrain-generator",
                     "title": "Procedural Terrain Generator",
-                    "description": "A terrain-generation demo that uses Perlin noise to build natural-looking landscapes.",
-                    "stack": ["Python", "Pygame", "Procedural Generation"],
-                    "url": "https://github.com/lekangji/Terrain-Generator"
+                    "description": "An interactive Pygame terrain generator that combines Perlin-noise heat, wetness, and elevation maps into reproducible biomes.",
+                    "stack": ["Python", "Pygame", "perlin-noise"],
+                    "url": "https://github.com/lekangji/Terrain-Generator",
+                    "caseStudy": {
+                        "statement": "Generate and explore terrain shaped by climate and elevation.",
+                        "built": "Separate heat, wetness, and elevation maps determine deserts, grasslands, rainforests, mountains, snow, and water. User-provided seeds make generated worlds reproducible.",
+                        "outcome": "The viewer supports panning, zooming, and regenerating terrain; the repository includes example renders."
+                    },
+                    "image": "https://raw.githubusercontent.com/lekangji/Terrain-Generator/main/Terrain-Generator.png",
+                    "images": [
+                        {
+                            "src": "https://raw.githubusercontent.com/lekangji/Terrain-Generator/main/Terrain-Generator.png",
+                            "alt": "Procedurally generated biome map"
+                        },
+                        {
+                            "src": "https://raw.githubusercontent.com/lekangji/Terrain-Generator/main/demo.png",
+                            "alt": "Terrain-generator example render"
+                        }
+                    ]
                 },
                 {
                     "id": "ascii-video",
                     "title": "ASCII Video",
-                    "description": "A webcam experiment that transforms live video into animated ASCII output.",
-                    "stack": ["OpenCV", "Pygame", "Tkinter"],
-                    "url": "https://github.com/lekangji/ASCII-Video"
+                    "description": "A real-time webcam-to-ASCII renderer using OpenCV and Pygame, with preserved colors and configurable character sets and sizes.",
+                    "stack": ["Python", "OpenCV", "Pygame", "Tkinter"],
+                    "url": "https://github.com/lekangji/ASCII-Video",
+                    "caseStudy": {
+                        "statement": "Turn live webcam frames into a moving display of colored characters.",
+                        "built": "The application captures webcam frames with OpenCV and renders their visual content as ASCII. Character sets, character size, and output colors are configurable.",
+                        "outcome": "The repository includes rendered examples and a live webcam workflow."
+                    },
+                    "image": "https://raw.githubusercontent.com/lekangji/ASCII-Video/main/ASCII-Video.png",
+                    "images": [
+                        {
+                            "src": "https://raw.githubusercontent.com/lekangji/ASCII-Video/main/ASCII-Video.png",
+                            "alt": "ASCII webcam-rendering preview"
+                        },
+                        {
+                            "src": "https://raw.githubusercontent.com/lekangji/ASCII-Video/main/demo.png",
+                            "alt": "Example colored ASCII output"
+                        }
+                    ]
                 },
                 {
                     "id": "nighttime-alleyway",
                     "title": "Nighttime Alleyway",
-                    "description": "A compact graphics experiment rendering a stylized nighttime alleyway scene.",
-                    "stack": ["GLSL", "Graphics"],
-                    "url": "https://github.com/lekangji/Nighttime-Alleyway"
+                    "description": "A procedural GLSL alleyway rendered on ShaderToy with ray marching, dynamic lighting, soft shadows, and a starfield.",
+                    "stack": ["GLSL", "ShaderToy", "Ray Marching"],
+                    "url": "https://github.com/lekangji/Nighttime-Alleyway",
+                    "siteUrl": "https://www.shadertoy.com/view/wfSBD3",
+                    "caseStudy": {
+                        "statement": "Build a nighttime scene from shader code rather than authored scene assets.",
+                        "built": "The final alley shader generates the ground, walls, lamps, and textures procedurally, adding lighting, soft shadows, and a starfield. A separate baseplate shader preserves earlier experiments.",
+                        "difficulty": "Ray marching is performance-intensive; the README identifies march and shadow step counts as adjustable quality/performance controls.",
+                        "outcome": "The final scene and the earlier baseplate experiment are linked as runnable ShaderToy projects."
+                    }
                 },
                 {
                     "id": "world-border-expansion",
                     "title": "World Border Expansion",
-                    "description": "A Minecraft plugin that expands the world border when an entity dies, turning gameplay events into progression.",
-                    "stack": ["Java", "Bukkit"],
-                    "url": "https://github.com/lekangji/World-Border-Expansion"
+                    "description": "A configurable Minecraft plugin that expands world borders after entity deaths, with per-world rules, mob-specific chances, and valid respawn handling.",
+                    "stack": ["Java", "Bukkit", "Minecraft"],
+                    "url": "https://github.com/lekangji/World-Border-Expansion",
+                    "caseStudy": {
+                        "statement": "Start in a small Minecraft world and expand it through gameplay.",
+                        "built": "Entity deaths can increase the world border, with separate chances and distances for passive, hostile, and boss mobs. Configuration also supports health-based bonuses and per-world expansion rules.",
+                        "difficulty": "The plugin adjusts warning distance as the border changes and handles player respawns within the permitted area.",
+                        "outcome": "The repository documents the configuration options and includes a gameplay example."
+                    },
+                    "image": "https://raw.githubusercontent.com/lekangji/World-Border-Expansion/main/thumbnail.png",
+                    "images": [
+                        {
+                            "src": "https://raw.githubusercontent.com/lekangji/World-Border-Expansion/main/thumbnail.png",
+                            "alt": "World Border Expansion gameplay preview"
+                        }
+                    ]
                 }
             ]
         },
         {
             "id": "competitive-programming",
             "eyebrow": "Competitive Programming",
-            "title": "Tools that make contest practice faster.",
+            "title": "Tools that make contest practice faster",
             "description": "Utilities created around competitive-programming workflows and repeated problem-solving practice.",
             "projects": [
                 {
                     "id": "usaco-boilerplate-generator",
                     "title": "USACO Boilerplate Generator",
-                    "description": "A configurable tool that gathers problem details and prepares starter code for USACO practice.",
+                    "description": "A configurable Python tool that fetches USACO problem details and generates starter code for terminal or file-based input.",
                     "stack": ["Python", "BeautifulSoup", "Requests"],
-                    "url": "https://github.com/lekangji/USACO-Boilerplate-Generator"
+                    "url": "https://github.com/lekangji/USACO-Boilerplate-Generator",
+                    "caseStudy": {
+                        "statement": "Remove repeated setup when starting a USACO problem.",
+                        "built": "The tool fetches problem names, input-file details, and statements, then combines them with configurable boilerplate templates. It supports terminal and file-based input workflows and copying commands for use in VS Code.",
+                        "outcome": "The repository includes editable configuration and two starter-code templates."
+                    }
                 }
             ]
         }
